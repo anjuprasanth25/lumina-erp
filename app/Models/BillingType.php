@@ -11,6 +11,7 @@ class BillingType extends Model
     /** @use HasFactory<\Database\Factories\BillingTypeFactory> */
     use HasFactory, HasAuditColumns;
 
+
     protected $fillable = ['name', 'code'];
 
 }

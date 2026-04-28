@@ -21,7 +21,7 @@ class EmployeeDetail extends Model
         'updated_by'
     ];
 
-    protected $table = 'employee_details';
+
 
     public function employee(): BelongsTo
     {

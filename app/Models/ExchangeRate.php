@@ -11,5 +11,6 @@ class ExchangeRate extends Model
     /** @use HasFactory<\Database\Factories\ExchangeRateFactory> */
     use HasFactory, HasAuditColumns;
 
+
     protected $fillable = ['year', 'month', 'from_currency_id', 'to_currency_id', 'rate'];
 }
