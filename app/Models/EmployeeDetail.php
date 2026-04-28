@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\HasAuditColumns;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class EmployeeDetail extends Model
 {
@@ -15,12 +16,17 @@ class EmployeeDetail extends Model
         'employee_id',
         'dob',
         'gender',
-        'date_of_joining',
-        'date_of_leaving',
-        'designation_id',
-        'department_id',
-        'billing_type_id',
-        'country_id',
-        'family_status'
+        'family_status',
+        'created_by',
+        'updated_by'
     ];
+
+    protected $table = 'employee_details';
+
+    public function employee(): BelongsTo
+    {
+        return $this->belongsTo(Employee::class, 'employee_id');
+    }
+
+
 }

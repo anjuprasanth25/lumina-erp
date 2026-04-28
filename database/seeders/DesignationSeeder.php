@@ -16,7 +16,8 @@ class DesignationSeeder extends Seeder
         $designations = [
             ['name' => 'Senior Manager', 'code' => 'SR_MGR'],
             ['name' => 'HR Manager', 'code' => 'HR_MGR'],
-            ['name' => 'Finance Manager', 'code' => 'FN_MGR']
+            ['name' => 'Finance Manager', 'code' => 'FN_MGR'],
+            ['name' => 'Senior Developer', 'code' => 'SR_DEV'],
         ];
 
         foreach ($designations as $desig) {

@@ -10,17 +10,9 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('employee_details', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('employee_id')->unique()->constrained('employees')->cascadeOnDelete();
-            $table->date('dob');
-            $table->string('gender');
-
-
-            $table->string('family_status');
+        Schema::table('employee_details', function (Blueprint $table) {
             $table->foreignId('created_by')->nullable()->constrained('users');
             $table->foreignId('updated_by')->nullable()->constrained('users');
-            $table->timestamps();
         });
     }
 
@@ -29,6 +21,8 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('employee_details');
+        Schema::table('employeedetails', function (Blueprint $table) {
+            //
+        });
     }
 };

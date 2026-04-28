@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -16,7 +17,7 @@ class UserSeeder extends Seeder
         User::create([
             'name' => 'LumaLegend625',
             'email' => 'admin@luminaerp.com',
-            'password' => bcrypt('P@ss_Luma625!@#$$')
+            'password' => Hash::make('P@ss_Luma625!@#$$')
         ]);
     }
 }

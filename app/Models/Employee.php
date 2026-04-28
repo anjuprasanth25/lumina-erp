@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Traits\HasAuditColumns;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Employee extends Model
 {
@@ -13,13 +15,52 @@ class Employee extends Model
 
     protected $fillable = [
         'code',
+        'name',
         'first_name',
         'middle_name',
         'last_name',
         'email',
         'is_active',
         'company_id',
+        'date_of_joining',
+        'date_of_leaving',
+        'designation_id',
+        'department_id',
+        'billing_type_id',
+        'country_id',
         'created_by',
         'updated_by'
     ];
+
+    public function detail(): HasOne
+    {
+        return $this->hasOne(EmployeeDetail::class, 'employee_id');
+    }
+
+    public function company(): BelongsTo
+    {
+        return $this->belongsTo(Company::class);
+    }
+
+    public function department(): BelongsTo
+    {
+        return $this->belongsTo(Department::class);
+    }
+
+    public function designation(): BelongsTo
+    {
+        return $this->belongsTo(Designation::class);
+    }
+
+    public function billingType(): BelongsTo
+    {
+        return $this->belongsTo(BillingType::class);
+    }
+
+    public function country(): BelongsTo
+    {
+        return $this->belongsTo(Country::class);
+    }
+
+
 }
