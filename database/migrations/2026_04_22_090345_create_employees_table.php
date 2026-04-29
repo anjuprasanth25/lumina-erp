@@ -21,13 +21,14 @@ return new class extends Migration {
             $table->boolean('is_active')->default(true);
 
             $table->foreignId('company_id')->constrained('companies');
-            $table->date('date_of_joining');
+            $table->date('date_of_joining')->nullable();
             $table->date('date_of_leaving')->nullable();
 
             $table->foreignId('designation_id')->constrained('designations');
             $table->foreignId('department_id')->constrained('departments');
             $table->foreignId('billing_type_id')->nullable()->constrained('billing_types');
             $table->foreignId('country_id')->constrained('countries');
+            $table->boolean('is_system_record')->default(false);
             $table->foreignId('created_by')->nullable()->constrained('users');
             $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->timestamps();

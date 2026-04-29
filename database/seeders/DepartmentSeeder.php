@@ -17,6 +17,7 @@ class DepartmentSeeder extends Seeder
             ['name' => 'Human Resources', 'code' => 'HR'],
             ['name' => 'Finance', 'code' => 'FIN'],
             ['name' => 'Operations', 'code' => 'OPS'],
+            ['name' => 'Information Technology', 'code' => 'IT'],
         ];
 
         foreach ($departments as $dept) {

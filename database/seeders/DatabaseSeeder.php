@@ -23,15 +23,7 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
-            CurrencySeeder::class,
-            DesignationSeeder::class,
-            DepartmentSeeder::class,
-            CountrySeeder::class,
-            BillingTypeSeeder::class,
-            ExchangeRateSeeder::class,
-            CompanySeeder::class,
-            UserSeeder::class,
-
+            MasterDataSeeder::class
         ]);
 
     }

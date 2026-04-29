@@ -109,7 +109,8 @@ class EmployeeResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->hidden(fn($record) => $record->is_system_record),
             ])
             ->bulkActions([
                 // Tables\Actions\BulkActionGroup::make([
