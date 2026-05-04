@@ -11,9 +11,9 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('roles', function (Blueprint $table) {
-            $table->boolean('is_active')->default(true);
-            $table->foreignId('created_by')->nullable()->constrained('users');
-            $table->foreignId('updated_by')->nullable()->constrained('users');
+            $table->string('code')->unique()->after('name');
+            $table->string('description')->nullable()->after('code');
+            $table->boolean('is_system')->default(false)->after('is_active');
         });
     }
 
@@ -23,7 +23,7 @@ return new class extends Migration {
     public function down(): void
     {
         Schema::table('roles', function (Blueprint $table) {
-            $table->dropColumn(['is_active', 'created_by', 'updated_by']);
+            $table->dropColumn(['code', 'description', 'is_system']);
         });
     }
 };

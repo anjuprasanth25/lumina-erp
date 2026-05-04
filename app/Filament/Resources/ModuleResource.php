@@ -30,7 +30,7 @@ class ModuleResource extends Resource
                 TextInput::make('name')
                     ->required()
                     ->live(onBlur: true)
-                    ->afterStateUpdated(fn($set, $state) => $set('slug', Str::slug($state))),
+                    ->afterStateUpdated(fn($set, $state) => $set('slug', Str::slug($state, '_', ))),
 
                 TextInput::make('slug')
                     ->required()
