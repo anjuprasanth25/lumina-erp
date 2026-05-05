@@ -29,10 +29,11 @@ class Employee extends Model
         'billing_type_id',
         'country_id',
         'created_by',
-        'updated_by'
+        'updated_by',
+        'line_manager_id'
     ];
 
-    public function detail(): HasOne
+    public function details(): HasOne
     {
         return $this->hasOne(EmployeeDetail::class, 'employee_id');
     }
@@ -60,6 +61,11 @@ class Employee extends Model
     public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class);
+    }
+
+    public function lineManager()
+    {
+        return $this->belongsTo(Employee::class, 'line_manager_id');
     }
 
 

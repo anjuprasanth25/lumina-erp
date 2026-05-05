@@ -8,18 +8,22 @@ use App\Filament\Resources\EmployeeResource\Pages;
 use App\Filament\Resources\EmployeeResource\RelationManagers;
 use App\Filament\Resources\EmployeeResource\RelationManagers\DetailRelationManager;
 use App\Models\Employee;
+use Date;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use phpDocumentor\Reflection\Types\Nullable;
+use Str;
 use function Laravel\Prompts\title;
 
 class EmployeeResource extends Resource
@@ -36,14 +40,27 @@ class EmployeeResource extends Resource
                     ->required()
                     ->unique(ignoreRecord: true)
                     ->disabled(fn($operation) => $operation === 'edit'),
-                TextInput::make('name')->required()->maxLength(255),
-                TextInput::make('first_name')->required()->maxLength(255),
-                TextInput::make('middle_name')->maxLength(255),
-                TextInput::make('last_name')->required()->maxLength(255),
                 TextInput::make('email')
                     ->required()
                     ->email()
-                    ->unique(ignoreRecord: true)
+                    ->unique(ignoreRecord: true),
+                TextInput::make('first_name')
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(fn($get, $set) => $set('name', trim($get('first_name')) . ' ' . trim($get('middle_name')) . ' ' . trim($get('last_name'))))
+                    ->required()
+                    ->maxLength(255),
+                TextInput::make('middle_name')
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(fn($get, $set) => $set('name', trim($get('first_name')) . ' ' . trim($get('middle_name')) . ' ' . trim($get('last_name'))))
+                    ->maxLength(255),
+                TextInput::make('last_name')
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(fn($get, $set) => $set('name', trim($get('first_name')) . ' ' . trim($get('middle_name')) . ' ' . trim($get('last_name'))))
+                    ->required()
+                    ->maxLength(255),
+                TextInput::make('name')
+                    ->label('Full Name')
+                    ->readOnly()
             ])->columns(2),
 
             Section::make('Employment Details')->schema([
@@ -75,6 +92,19 @@ class EmployeeResource extends Resource
                     )->searchable()
                     ->required()
                     ->preload(),
+                Select::make('line_manager_id')
+                    ->label('Reporting To')
+                    ->relationship(
+                        'lineManager',
+                        'name',
+                        modifyQueryUsing: fn(Builder $query, $record)
+                        => $query->when($record, fn($q) => $q->where('id', '!=', $record->id))
+                    )
+                    ->nullable()
+                    ->searchable()
+                    ->preload()
+                    ->getOptionLabelFromRecordUsing(fn($record) => "{$record->name} - {$record->designation->name}"),
+
                 Select::make('country_id')
                     ->label('Country')
                     ->relationship(
@@ -91,7 +121,25 @@ class EmployeeResource extends Resource
                     )
                     ->required()
                     ->preload()
-            ])->columns(2)
+            ])->columns(2),
+
+            Section::make('Personal Information')
+                ->relationship('details')
+                ->schema([
+                    DatePicker::make('dob')
+                        ->label('Date of Birth')
+                        ->required(),
+                    Select::make('gender')
+                        ->label('Gender')
+                        ->options(Gender::class)
+                        ->required(),
+                    Select::make('family_status')
+                        ->label('Family Status')
+                        ->options(FamilyStatus::class)
+                        ->required()
+
+                ])->columns(3)
+
         ]);
     }
 
@@ -122,7 +170,7 @@ class EmployeeResource extends Resource
     public static function getRelations(): array
     {
         return [
-            DetailRelationManager::class
+
         ];
     }
 

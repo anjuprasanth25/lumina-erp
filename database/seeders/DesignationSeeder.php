@@ -14,10 +14,13 @@ class DesignationSeeder extends Seeder
     public function run(): void
     {
         $designations = [
+            ['name' => 'CEO', 'code' => 'CEO'],
+            ['name' => 'Director', 'code' => 'DIR'],
             ['name' => 'Senior Manager', 'code' => 'SR_MGR'],
             ['name' => 'HR Manager', 'code' => 'HR_MGR'],
             ['name' => 'Finance Manager', 'code' => 'FN_MGR'],
             ['name' => 'Senior Developer', 'code' => 'SR_DEV'],
+            ['name' => 'Finance Executive', 'code' => 'FN_EXE'],
         ];
 
         foreach ($designations as $desig) {
