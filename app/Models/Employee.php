@@ -38,6 +38,11 @@ class Employee extends Model
         return $this->hasOne(EmployeeDetail::class, 'employee_id');
     }
 
+    public function user(): HasOne
+    {
+        return $this->hasOne(User::class, 'employee_id');
+    }
+
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);

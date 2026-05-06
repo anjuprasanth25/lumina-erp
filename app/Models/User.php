@@ -52,10 +52,9 @@ class User extends Authenticatable
         ];
     }
 
-
-    public function companymoduleUsers(): HasMany
+    public function employee()
     {
-        return $this->hasMany(CompanyModuleUser::class);
+        return $this->belongsTo(Employee::class);
     }
 
     public function roles(): BelongsToMany
@@ -63,31 +62,5 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class);
     }
 
-    public function hasModuleAccess($module_id, $company_id)
-    {
-        $hascompanyAccess = $this->companymoduleUsers()
-            ->where('company_id', $company_id)
-            ->whereNull('module_id')
-            ->exists();
 
-        if (!$hascompanyAccess)
-            return false;
-
-        //check if the user has access to this module in companny_module_user
-        $hasModuleAcess = $this->companymoduleUsers()
-            ->where('company_id', $company_id)
-            ->where('module_id', $module_id)
-            ->exists();
-
-        if ($hasModuleAcess)
-            return true;
-
-        // 2. Check if the module is in one of the user's Roles
-        return $hasModuleInRole = $this->roles()
-            ->whereHas('modules', fn($q) => $q->where('modules.id', $module_id))
-            ->exists();
-
-
-
-    }
 }
