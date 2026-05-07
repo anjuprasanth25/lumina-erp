@@ -6,6 +6,8 @@ namespace App\Models;
 use App\Notifications\WelcomeOnboardNotification;
 use App\Traits\HasAuditColumns;
 use Database\Factories\UserFactory;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -13,7 +15,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, HasRoles, HasAuditColumns;
@@ -42,6 +44,17 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public function canAccessPanel(Panel $panel): bool
+    {
+        if (!$this->is_active)
+            return false;
+
+        //dd($panel->getId());
+
+        return true;
+
+    }
+
     /**
      * Get the attributes that should be cast.
      *
@@ -54,6 +67,7 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
 
     public function employee()
     {
