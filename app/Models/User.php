@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Notifications\WelcomeOnboardNotification;
 use App\Traits\HasAuditColumns;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -27,6 +28,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_active'
     ];
 
     /**
@@ -62,5 +64,21 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class);
     }
 
+    public function companies()
+    {
+        return $this->belongsToMany(Company::class, 'company_role_user')
+            ->withPivot(['role_id', 'module_id'])
+            ->withTimestamps();
+    }
+
+    public function companyRoleAssignments()
+    {
+        return $this->hasMany(CompanyRoleUser::class);
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new WelcomeOnboardNotification($token));
+    }
 
 }

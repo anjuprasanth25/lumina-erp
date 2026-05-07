@@ -30,6 +30,24 @@ class CompanySeeder extends Seeder
                 'base_currency_id' => 1,
                 'country_id' => 1
             ],
+
+            [
+                'name' => 'PHD Dubai',
+                'legal_name' => 'PHD FZ LLC',
+                'code' => 'PHD',
+                'currency_id' => 1,
+                'base_currency_id' => 1,
+                'country_id' => 1
+            ],
+
+            [
+                'name' => 'Annalect',
+                'legal_name' => 'Annalect',
+                'code' => 'Annalect',
+                'currency_id' => 1,
+                'base_currency_id' => 1,
+                'country_id' => 1
+            ],
         ];
 
         foreach ($companies as $company) {

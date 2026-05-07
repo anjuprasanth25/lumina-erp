@@ -151,7 +151,8 @@ class EmployeeResource extends Resource
                 TextColumn::make('name'),
                 TextColumn::make('email'),
                 TextColumn::make('company.name')->label('Company'),
-                TextColumn::make('department.name')->label('Dept')
+                //TextColumn::make('department.name')->label('Dept'),
+                TextColumn::make('designation.name')->label('Designation')
             ])
             ->filters([
                 //
