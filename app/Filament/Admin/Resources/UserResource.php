@@ -28,8 +28,9 @@ use Illuminate\Notifications\Notifiable;
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
+    protected static ?string $navigationGroup = 'Masters';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
     public static function form(Form $form): Form
     {
@@ -130,6 +131,7 @@ class UserResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->recordUrl(null) // 👈 This disables the automatic link on the row
             ->columns([
                 TextColumn::make('name'),
                 TextColumn::make('email'),

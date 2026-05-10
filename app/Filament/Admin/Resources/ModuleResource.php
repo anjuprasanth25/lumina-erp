@@ -8,6 +8,7 @@ use Filament\Forms;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
@@ -20,7 +21,9 @@ class ModuleResource extends Resource
 {
     protected static ?string $model = Module::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Masters';
+
+    protected static ?string $navigationIcon = 'heroicon-o-squares-plus';
 
     public static function form(Form $form): Form
     {
@@ -29,10 +32,18 @@ class ModuleResource extends Resource
                 TextInput::make('name')
                     ->required()
                     ->live(onBlur: true)
-                    ->afterStateUpdated(fn($set, $state) => $set('slug', Str::slug($state, '_', ))),
+                    ->afterStateUpdated(
+                        function (Set $set, ?string $state, string $operation) {
+                            if ($operation != 'create')
+                                return;
+
+                            $set('slug', Str::slug($state, '_', ));
+                        }
+                    ),
 
                 TextInput::make('slug')
-                    ->required()
+                    ->readOnly()
+                    ->dehydrated()
                     ->unique(ignoreRecord: true),
 
                 Select::make('parent_id')

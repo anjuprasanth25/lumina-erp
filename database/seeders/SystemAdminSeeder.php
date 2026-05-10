@@ -44,7 +44,8 @@ class SystemAdminSeeder extends Seeder
             'name' => 'System Administrator',
             'email' => 'admin@luminaerp.com',
             'password' => Hash::make('P@ss_Luma625!@#$$'),
-            'employee_id' => $employee->id
+            'employee_id' => $employee->id,
+            'is_admin' => 1
         ]);
     }
 }

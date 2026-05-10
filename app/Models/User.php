@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements FilamentUser
@@ -20,7 +21,7 @@ class User extends Authenticatable implements FilamentUser
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, HasRoles, HasAuditColumns;
 
-
+    protected ?Collection $moduleCache = null;
     /**
      * The attributes that are mass assignable.
      *
@@ -49,12 +50,48 @@ class User extends Authenticatable implements FilamentUser
         if (!$this->is_active)
             return false;
 
-        //dd($panel->getId());
+        if ($panel->getId() == 'admin') {
+            return $this->isSystemAdmin();
+        }
 
-        return true;
-
+        return $this->isSystemAdmin() || $this->companyRoleAssignments()->exists();
     }
 
+    //function to check whethet the current user has access to this module code
+    public function hasModule(string $moduleSlug)
+    {
+        if ($this->isSystemAdmin())
+            return true;
+
+        return $query = $this->companyRoleAssignments()
+            ->whereHas('role.modules', function ($query) use ($moduleSlug) {
+                $query->where('modules.slug', $moduleSlug);
+            })
+            ->exists();
+    }
+
+    public function isSystemAdmin(): bool
+    {
+        return (bool) $this->is_admin;
+    }
+
+    public function getModuleMetadata(string $slug)
+    {
+        if ($this->moduleCache === null) {
+            //get the module details for all the modules the usr has access to
+            $this->moduleCache = Module::whereHas(
+                'roles',
+                function ($query) {
+                    $query->whereIn('roles.id', $this->companyRoleAssignments()->pluck('role_id'));
+                }
+            )->with('parentModule')
+                ->get()
+                ->keyBy('slug');
+        }
+
+        return $this->moduleCache->get($slug);
+
+    }
     /**
      * Get the attributes that should be cast.
      *
@@ -74,10 +111,10 @@ class User extends Authenticatable implements FilamentUser
         return $this->belongsTo(Employee::class);
     }
 
-    public function roles(): BelongsToMany
-    {
-        return $this->belongsToMany(Role::class);
-    }
+    // public function roles(): BelongsToMany
+    // {
+    //     return $this->belongsToMany(Role::class);
+    // }
 
     public function companies()
     {
@@ -88,7 +125,7 @@ class User extends Authenticatable implements FilamentUser
 
     public function companyRoleAssignments()
     {
-        return $this->hasMany(CompanyRoleUser::class);
+        return $this->hasMany(CompanyRoleUser::class, 'user_id');
     }
 
     public function sendPasswordResetNotification($token)

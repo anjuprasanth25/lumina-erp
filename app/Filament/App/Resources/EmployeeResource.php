@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Filament\Admin\Resources;
+namespace App\Filament\App\Resources;
 
 use App\Enum\FamilyStatus;
 use App\Enum\Gender;
-use App\Filament\Admin\Resources\EmployeeResource\Pages;
+use App\Filament\App\Resources\EmployeeResource\Pages;
 use App\Models\Employee;
 use Date;
 use Filament\Forms;
@@ -29,6 +29,20 @@ class EmployeeResource extends Resource
     protected static ?string $model = Employee::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    //this function return the module parent name. parameter passed is module slug.
+    public static function getNavigationGroup(): ?string
+    {
+        $module = auth()->user()->getModuleMetadata('employee_onboarding');
+        return $module?->parentModule?->name ?? 'Human Resource';
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        $module = auth()->user()->getModuleMetadata('employee_onboarding');
+        return $module?->name ?? 'Employee Onboarding';
+    }
+
 
     public static function form(Form $form): Form
     {
