@@ -40,10 +40,18 @@ class RoleResource extends Resource
                         TextInput::make('name')
                             ->required()
                             ->live(onBlur: true)
-                            ->afterStateUpdated(fn(?string $state, Set $set) => $set('code', Str::slug($state, '_'))),
+                            ->afterStateUpdated(
+                                function (Set $set, ?string $state, string $operation) {
+                                    if ($operation != 'create')
+                                        return;
+
+                                    $set('code', Str::slug($state, '_'));
+                                }
+                            ),
 
                         TextInput::make('code')
-                            ->required()
+                            ->readonly()
+                            ->dehydrated()
                             ->unique(ignoreRecord: true),
 
                         Textarea::make('description')

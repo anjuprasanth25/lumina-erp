@@ -8,6 +8,7 @@ use App\Traits\HasAuditColumns;
 use Database\Factories\UserFactory;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
+use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -19,7 +20,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable, HasRoles, HasAuditColumns;
+    use HasFactory, Notifiable, HasRoles, HasAuditColumns, CanResetPassword;
 
     protected ?Collection $moduleCache = null;
     /**
@@ -32,6 +33,7 @@ class User extends Authenticatable implements FilamentUser
         'email',
         'password',
         'is_active',
+        'is_admin',
         'employee_id'
     ];
 

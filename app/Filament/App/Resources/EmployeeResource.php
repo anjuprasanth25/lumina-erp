@@ -12,6 +12,7 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Forms\Set;
 use Filament\Resources\Resource;
@@ -21,7 +22,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use phpDocumentor\Reflection\Types\Nullable;
-use Str;
+use Illuminate\Support\Str;
 use function Laravel\Prompts\title;
 
 class EmployeeResource extends Resource
@@ -72,7 +73,12 @@ class EmployeeResource extends Resource
                     ->maxLength(255),
                 TextInput::make('name')
                     ->label('Full Name')
-                    ->readOnly()
+                    ->readOnly(),
+                Toggle::make('create_user_account')
+                    ->label('Create User Account')
+                    ->default(true)
+                    ->helperText('This will create a login for this employee')
+                    ->dehydrated(false)
             ])->columns(2),
 
             Section::make('Employment Details')->schema([

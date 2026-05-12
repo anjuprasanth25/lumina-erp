@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 
 class Employee extends Model
 {
@@ -30,7 +33,10 @@ class Employee extends Model
         'country_id',
         'created_by',
         'updated_by',
-        'line_manager_id'
+        'line_manager_id',
+        'dob',
+        'gender',
+        'family_status'
     ];
 
     public function details(): HasOne

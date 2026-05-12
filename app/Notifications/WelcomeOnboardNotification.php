@@ -35,10 +35,7 @@ class WelcomeOnboardNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        $setupUrl = url(route('password.reset', [
-            'token' => $this->token,
-            'email' => $notifiable->getEmailForPasswordReset(),
-        ], false));
+        $setupUrl = url('/app/password-reset/' . $this->token . '?email=' . urlencode($notifiable->email));
 
         return (new MailMessage)
             ->subject('Welcome to Lumina ERP — Setup Your Account Profile')

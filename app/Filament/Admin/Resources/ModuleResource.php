@@ -15,7 +15,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Str;
+use Illuminate\Support\Str;
 
 class ModuleResource extends Resource
 {
@@ -37,7 +37,7 @@ class ModuleResource extends Resource
                             if ($operation != 'create')
                                 return;
 
-                            $set('slug', Str::slug($state, '_', ));
+                            $set('slug', Str::slug($state, '_'));
                         }
                     ),
 
