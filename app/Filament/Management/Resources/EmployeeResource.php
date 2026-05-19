@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Filament\App\Resources;
+namespace App\Filament\Management\Resources;
 
 use App\Enum\FamilyStatus;
 use App\Enum\Gender;
-use App\Filament\App\Resources\EmployeeResource\Pages;
+use App\Filament\Management\Resources\EmployeeResource\Pages;
 use App\Models\Employee;
 use Date;
 use Filament\Forms;

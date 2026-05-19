@@ -2,14 +2,21 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
-// Route::get('/', function () {
-//     return redirect('/login');
-// });
+Route::middleware(['auth'])->group(function () {
+    Route::get('/app-dashboard', function () {
+        return Inertia::render('Dashboard', [
+            'auth' => [
+                'user' => auth()->user(),
+            ],
 
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
+        ]);
+    })->name('app.dashboard');
+});
+
+
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -17,4 +24,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-//require __DIR__.'/auth.php'; to remove the routes pointing to AuthenticatedSessionController.
+
