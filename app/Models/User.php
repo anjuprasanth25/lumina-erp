@@ -135,4 +135,9 @@ class User extends Authenticatable implements FilamentUser
         $this->notify(new WelcomeOnboardNotification($token));
     }
 
+    public function leaveRequests(): HasMany
+    {
+        return $this->hasMany(LeaveRequest::class);
+    }
+
 }

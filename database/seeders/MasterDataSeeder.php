@@ -19,7 +19,8 @@ class MasterDataSeeder extends Seeder
             CountrySeeder::class,
             BillingTypeSeeder::class,
             ExchangeRateSeeder::class,
-            ModuleSeeder::class
+            ModuleSeeder::class,
+            LeaveTypeSeeder::class
 
         ]);
 
