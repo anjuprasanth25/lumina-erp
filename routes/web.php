@@ -1,18 +1,24 @@
 <?php
 
+use App\Http\Controllers\LeaveRequestController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/app-dashboard', function () {
+    Route::get('/dashboard', function () {
         return Inertia::render('Dashboard', [
             'auth' => [
                 'user' => auth()->user(),
             ],
 
         ]);
-    })->name('app.dashboard');
+    })->name('dashboard');
+
+    Route::get('/leave-requests/create', [LeaveRequestController::class, 'create'])->name('leave-requests.create');
+    Route::post('/leave-requests', [LeaveRequestController::class, 'store'])->name('leave-requests.store');
+
+
 });
 
 

@@ -16,6 +16,7 @@ class CountrySeeder extends Seeder
         $countries = [
             ['name' => 'United Arab Emirates', 'iso_code' => 'AE', 'phone_code' => '971'],
             ['name' => 'Saudi Arabia', 'iso_code' => 'SA', 'phone_code' => '966'],
+            ['name' => 'India', 'iso_code' => 'ND', 'phone_code' => '91'],
             // Add your primary countries here
         ];
 
