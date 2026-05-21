@@ -84,11 +84,12 @@ class User extends Authenticatable implements FilamentUser
             $this->moduleCache = Module::whereHas(
                 'roles',
                 function ($query) {
-                    $query->whereIn('roles.id', $this->companyRoleAssignments()->pluck('role_id'));
+                    $query->whereIn('roles.id', $this->roles()->pluck('roles.id'));
                 }
             )->with('parentModule')
                 ->get()
                 ->keyBy('slug');
+
         }
 
         return $this->moduleCache->get($slug);
@@ -138,6 +139,13 @@ class User extends Authenticatable implements FilamentUser
     public function leaveRequests(): HasMany
     {
         return $this->hasMany(LeaveRequest::class);
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'company_role_user', 'user_id', 'role_id')
+            ->withPivot('company_id')
+            ->withTimestamps();
     }
 
 }

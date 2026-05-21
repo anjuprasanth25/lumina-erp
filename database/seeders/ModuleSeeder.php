@@ -23,5 +23,7 @@ class ModuleSeeder extends Seeder
 
         $inventory = ParentModule::create(['name' => 'Inventory', 'order' => 3]);
         //Module::create(['parent_id' => $inventory->id, 'name' => 'Stock Items', 'order' => 1]);
+
+        $general = ParentModule::create(['name' => 'General', 'order' => 4]);
     }
 }
