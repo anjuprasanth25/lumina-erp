@@ -77,7 +77,7 @@ class User extends Authenticatable implements FilamentUser
         return (bool) $this->is_admin;
     }
 
-    public function getModuleMetadata(string $slug)
+    public function getModuleMetadata(?string $slug = null)
     {
         if ($this->moduleCache === null) {
             //get the module details for all the modules the usr has access to
@@ -92,7 +92,12 @@ class User extends Authenticatable implements FilamentUser
 
         }
 
-        return $this->moduleCache->get($slug);
+        if ($slug != "")
+            return $this->moduleCache->get($slug);
+        else
+            return $this->moduleCache;
+
+
 
     }
     /**

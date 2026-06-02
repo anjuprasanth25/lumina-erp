@@ -15,6 +15,9 @@ class LoginResponse implements Responsable
             return redirect()->to('/management');
         }
 
+        if ($user->isSystemAdmin()) {
+            return redirect()->to('/admin');
+        }
         $userRoles = $user->roles()->pluck('name')->toArray();
 
         $adminRoles = ['HR Admin', 'Finance Admin', 'Super Admin'];

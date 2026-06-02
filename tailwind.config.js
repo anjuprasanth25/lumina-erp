@@ -14,6 +14,13 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            colors: {
+                lumina: {
+                    darkBg: '#0b0f19',    // Deep background canvas
+                    panelBg: '#111827',   // Header, sidebar, and cards
+                    border: '#1f2937',    // Section dividers
+                }
+            }
         },
     },
 
