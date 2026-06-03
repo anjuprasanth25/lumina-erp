@@ -15,6 +15,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             HandleInertiaRequests::class,
         ]);
+        // Redirect unauthenticated guests to your management login
+        $middleware->redirectTo(guests: '/management/login');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

@@ -69,9 +69,7 @@ Route::post('/logout', function () {
     return Inertia::location('/management/login');
 })->name('logout');
 
-Route::get('/dashboard', function () {
-    return redirect('/management/login');
-});
+
 
 
 Route::middleware('auth')->group(function () {
