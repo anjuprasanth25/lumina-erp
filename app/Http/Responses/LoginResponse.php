@@ -17,16 +17,18 @@ class LoginResponse implements Responsable
 
         if ($user->isSystemAdmin()) {
             return redirect()->to('/admin');
+        } else {
+            return redirect()->to('/dashboard');
         }
-        $userRoles = $user->roles()->pluck('name')->toArray();
+        // $userRoles = $user->roles()->pluck('name')->toArray();
 
-        $adminRoles = ['HR Admin', 'Finance Admin', 'Super Admin'];
+        // $adminRoles = ['HR Admin', 'Finance Admin', 'Super Admin'];
 
-        if (!empty(array_intersect($userRoles, $adminRoles))) {
-            return redirect()->to('/management');
-        }
+        // if (!empty(array_intersect($userRoles, $adminRoles))) {
+        //     return redirect()->to('/management');
+        // }
 
-        return redirect()->to('/dashboard');
+
 
 
     }

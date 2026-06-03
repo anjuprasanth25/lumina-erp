@@ -3,7 +3,7 @@ import { Link } from '@inertiajs/react';
 
 export default function SidebarGroup({ group }){
     // Keep individual sections open by default, just like Filament
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(true);
 
     return (
         <div className="mb-4">
