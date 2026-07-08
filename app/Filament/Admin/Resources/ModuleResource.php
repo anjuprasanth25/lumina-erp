@@ -46,6 +46,10 @@ class ModuleResource extends Resource
                     ->dehydrated()
                     ->unique(ignoreRecord: true),
 
+                TextInput::make('custom_route_link')
+                    ->unique()
+                    ->required(),
+
                 Select::make('parent_id')
                     ->relationship('parentModule', 'name')
                     ->searchable()

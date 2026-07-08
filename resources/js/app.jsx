@@ -1,4 +1,3 @@
-console.log("Vite is loading app.jsx!");
 import './bootstrap';
 import '../css/app.css';
 

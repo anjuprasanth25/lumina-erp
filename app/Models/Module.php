@@ -16,6 +16,7 @@ class Module extends Model
         'parent_id',
         'name',
         'slug',
+        'custom_route_link',
         'order',
         'is_active',
         'created_by',

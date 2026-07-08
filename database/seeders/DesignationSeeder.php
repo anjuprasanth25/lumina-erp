@@ -17,6 +17,8 @@ class DesignationSeeder extends Seeder
             ['name' => 'CEO', 'code' => 'CEO'],
             ['name' => 'Director', 'code' => 'DIR'],
             ['name' => 'Senior Manager', 'code' => 'SR_MGR'],
+            ['name' => 'Finance Director', 'code' => 'FN_DR'],
+            ['name' => 'HR Director', 'code' => 'HR_DR'],
             ['name' => 'HR Manager', 'code' => 'HR_MGR'],
             ['name' => 'Finance Manager', 'code' => 'FN_MGR'],
             ['name' => 'Senior Developer', 'code' => 'SR_DEV'],

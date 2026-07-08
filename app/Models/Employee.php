@@ -33,10 +33,7 @@ class Employee extends Model
         'country_id',
         'created_by',
         'updated_by',
-        'line_manager_id',
-        'dob',
-        'gender',
-        'family_status'
+        'line_manager_id'
     ];
 
     public function details(): HasOne

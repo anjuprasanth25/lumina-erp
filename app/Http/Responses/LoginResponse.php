@@ -15,11 +15,19 @@ class LoginResponse implements Responsable
             return redirect()->to('/management');
         }
 
-        if ($user->isSystemAdmin()) {
-            return redirect()->to('/admin');
-        } else {
-            return redirect()->to('/dashboard');
+        // Get the previous URL page path (e.g., "/admin/login")
+        $refererPath = parse_url(url()->previous(), PHP_URL_PATH);
+
+        if ($user->isSystemAdmin() && str_starts_with($refererPath, '/admin')) {
+
+             return redirect()->to('/admin');
         }
+
+        return redirect()->to('/dashboard');
+
+
+
+
         // $userRoles = $user->roles()->pluck('name')->toArray();
 
         // $adminRoles = ['HR Admin', 'Finance Admin', 'Super Admin'];

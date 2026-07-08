@@ -6,7 +6,10 @@
 
         <title inertia>{{ config('app.name', 'Lumina ERP') }}</title>
 
+        @routes
 
+        @viteReactRefresh
+        @vite(['resources/js/app.jsx'])
         @inertiaHead
 
 
@@ -14,9 +17,5 @@
     <body class="font-sans antialiased bg-[#0b0f19]">
         @inertia
 
-        @routes
-
-        @viteReactRefresh
-        @vite(['resources/js/app.jsx'])
     </body>
 </html>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from '@inertiajs/react';
+import { route } from 'ziggy-js';
 
 export default function SidebarGroup({ group }){
     // Keep individual sections open by default, just like Filament
@@ -24,7 +25,7 @@ export default function SidebarGroup({ group }){
                     {group.items.map((item) => (
                         <Link
                             key={item.id}
-                            href={`/${item.slug}`}
+                            href={`/dashboard/${item.custom_route_link || item.slug}`}
                             className="flex items-center px-3 py-2 rounded-lg text-sm font-medium text-gray-400 hover:bg-gray-800 hover:text-white transition"
                         >
                             <span className="mr-2 text-xs text-amber-500">○</span>

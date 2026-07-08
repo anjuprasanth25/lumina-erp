@@ -3,11 +3,10 @@ import { Head } from '@inertiajs/react';
 import AuthenticatedLayout from '../Components/AuthenticatedLayout';
 import { usePage, Link } from '@inertiajs/react';
 
-export default function Dashboard() {
-    const {flash , auth} = usePage().props;
-
+export default function Dashboard({ auth, flash }) {
     return (
         <AuthenticatedLayout auth={auth}>
+            {/* ─── EVERYTHING DOWN HERE BECOMES "CHILDREN" ─── */}
             <Head title="Dashboard" />
 
             <div className="bg-lumina-darkBg p-6 rounded-xl shadow-md border border-gray-800">
@@ -18,7 +17,7 @@ export default function Dashboard() {
                     Select an option from the sidebar module menu to manage your tasks.
                 </p>
             </div>
-
+        {/* ────────────────────────────────────────────── */}
         </AuthenticatedLayout>
     );
 }
