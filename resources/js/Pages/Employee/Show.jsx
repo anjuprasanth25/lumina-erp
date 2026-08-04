@@ -4,11 +4,12 @@ import AuthenticatedLayout from "../../Components/AuthenticatedLayout";
 import TextInput from "../../Components/TextInput";
 import SelectInput from "../../Components/SelectInput";
 import { route } from "ziggy-js";
+import { ArrowLeft } from "lucide-react";
 
-export default function Edit({ auth, employee }) {
+export default function Show({ auth, employee }) {
     return (
         <AuthenticatedLayout auth={auth}>
-            <div className="min-h-screen bg-[#0b0f19] p-8 text-white">
+            <div className="min-h-screen bg-lumina-darkBg p-8 text-white">
                 <Head title={`Employee Profile - ${employee.name}`} />
 
                 <div className="max-w-4xl mx-auto space-y-6">
@@ -22,13 +23,14 @@ export default function Edit({ auth, employee }) {
                         </h2>
                         <Link
                             href={route("employee.index")}
-                            className="text-sm text-gray-400 hover:text-white transition-colors"
+                            className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-400 hover:text-white transition-colors"
                         >
-                            Back to Directory
+                            <ArrowLeft className="w-4 h-4" />
+                            <span>Back to Directory</span>
                         </Link>
                     </div>
                     {/* CARD CONTAINER */}
-                    <div className="bg-[#141416] border border-gray-800 rounded-xl p-6 shadow-xl">
+                    <div className="bg-slate-900/60 backdrop-blur-md border border-slate-800 rounded-xl p-6 shadow-xl">
                         <h3 className="mb-2 font-bold">Personal Information</h3>
                         {/* 🌟 FORCE 2 COLUMNS AND PREVENT FLEX BREAKING BY WRAPPING TARGETS */}
                         <div
@@ -110,7 +112,7 @@ export default function Edit({ auth, employee }) {
                     </div>
                     {/* END OF CARD */}
 
-                    <div className="bg-[#141416] border border-gray-800 rounded-xl p-6 shadow-xl pt-10">
+                    <div className="bg-slate-900/60 backdrop-blur-md border border-slate-800 rounded-xl p-6 shadow-xl pt-10">
                         <h3 className="mb-2 font-bold">
                             Employement Information
                         </h3>

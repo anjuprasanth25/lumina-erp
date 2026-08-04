@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class CompanyRoleUser extends Model
+class CompanyRoleUser extends Pivot
 {
     protected $table = 'company_role_user';
 
@@ -17,5 +17,10 @@ class CompanyRoleUser extends Model
     public function role()
     {
         return $this->belongsTo(Role::class);
+    }
+
+    public function module()
+    {
+        return $this->belongsTo(Module::class);
     }
 }

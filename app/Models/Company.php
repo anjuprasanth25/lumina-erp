@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Company extends Model
 {
+    protected $table = 'companies';
     /** @use HasFactory<\Database\Factories\CompanyFactory> */
     use HasFactory, HasAuditColumns;
 
@@ -19,5 +20,4 @@ class Company extends Model
         'country_id',
         'is_active'
     ];
-
 }

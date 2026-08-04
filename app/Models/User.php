@@ -89,16 +89,12 @@ class User extends Authenticatable implements FilamentUser
             )->with('parentModule')
                 ->get()
                 ->keyBy('slug');
-
         }
 
         if ($slug != "")
             return $this->moduleCache->get($slug);
         else
             return $this->moduleCache;
-
-
-
     }
     /**
      * Get the attributes that should be cast.
@@ -126,7 +122,8 @@ class User extends Authenticatable implements FilamentUser
 
     public function companies()
     {
-        return $this->belongsToMany(Company::class, 'company_role_user')
+        return $this->belongsToMany(Company::class, 'company_role_user', 'user_id', 'company_id')
+            ->using(CompanyRoleUser::class)
             ->withPivot(['role_id', 'module_id'])
             ->withTimestamps();
     }
@@ -149,8 +146,7 @@ class User extends Authenticatable implements FilamentUser
     public function roles()
     {
         return $this->belongsToMany(Role::class, 'company_role_user', 'user_id', 'role_id')
-            ->withPivot('company_id')
+            ->withPivot('company_id', 'module_id')
             ->withTimestamps();
     }
-
 }

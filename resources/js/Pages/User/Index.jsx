@@ -1,17 +1,54 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Head, Link, router, usePage } from "@inertiajs/react";
-import AuthenticatedLayout from "../../Components/AuthenticatedLayout";
 import { Eye, Edit, KeyRound, Ban } from "lucide-react";
+import AuthenticatedLayout from "../../Components/AuthenticatedLayout";
 import { route } from "ziggy-js";
 
-export default function Index({ auth, employees }) {
+export default function Index({ auth, users, filters }) {
     const { flash } = usePage().props;
 
-    const employeeData = employees.data || [];
+    const userData = users.data || "";
+
+    const [search, setSearch] = useState(filters.search || "");
+
+    // Debounce search input to avoid hitting backend on every keystroke
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            if (search !== (filters.search || "")) {
+                router.get(
+                    route("users.index"),
+                    { search: search },
+                    { preserveState: true, replace: true },
+                );
+            }
+        }, 400);
+
+        return () => clearTimeout(timer);
+    }, [search]);
+
+    const [processingUserId, setProcessingUserId] = useState(null);
+
+    const handleResendLink = (userid) => {
+        if (
+            confirm(
+                "Are you sure you want to resend the activation/password link to this user?",
+            )
+        ) {
+            router.post(
+                route("user.resend-link", userid),
+                {},
+                {
+                    preserveScroll: true,
+                    onStart: () => setProcessingUserId(userid),
+                    onFinish: () => setProcessingUserId(null),
+                },
+            );
+        }
+    };
 
     return (
         <AuthenticatedLayout auth={auth}>
-            <Head title="Employee Directory" />
+            <Head title="User Directory" />
             <div className="py-12 bg-lumina-darkBg min-h-screen text-gray-200">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
                     {flash?.success && (
@@ -33,43 +70,35 @@ export default function Index({ auth, employees }) {
                         <p className="text-sm text-slate-400">
                             Showing{" "}
                             <span className="font-semibold text-white">
-                                {employees.from || 1}
+                                {users.from || 1}
                             </span>{" "}
                             to{" "}
                             <span className="font-semibold text-white">
-                                {employees.to || employees.data.length}
+                                {users.to || users.data.length}
                             </span>{" "}
                             of{" "}
                             <span className="font-semibold text-white">
-                                {employees.total || employees.data.length}
+                                {users.total || users.data.length}
                             </span>{" "}
-                            employees.
+                            users.
                         </p>
                         <Link
-                            href={route("employee.create")}
+                            href={route("user.create")}
                             className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-500 active:bg-blue-700 rounded-lg shadow-md hover:shadow-blue-500/20 transition-all duration-150"
                         >
                             <span className="text-base leading-none">+</span>
-                            <span>Onboard New Employee</span>
+                            <span>Onboard New User</span>
                         </Link>
                     </div>
                     {/* DIRECTORY MATRIX CARD */}
                     <div className="bg-slate-900/60 backdrop-blur-md border border-slate-800 rounded-xl overflow-hidden shadow-xl">
                         <div className="overflow-x-auto">
                             <table className="w-full text-left border-collapse">
-                                <thead className="bg-[#1c273e] text-xs uppercase text-slate-400 font-semibold border-b border-slate-800">
+                                <thead>
                                     <tr className="border-b border-gray-800 bg-[#242427]/50 text-gray-400 text-xs uppercase tracking-wider font-semibold">
+                                        <th className="px-6 py-4">User Name</th>
                                         <th className="px-6 py-4">
-                                            Employee Code
-                                        </th>
-                                        <th className="px-6 py-4">
-                                            Employee Name
-                                        </th>
-                                        <th className="px-6 py-4">
-                                            Corporate Matrix
-                                        </th>
-                                        <th className="px-6 py-4">
-                                            Joining Date
+                                            Primary Corporate Matrix
                                         </th>
                                         <th className="px-6 py-4">Status</th>
                                         <th className="px-4 py-3 text-center text-xs font-semibold text-slate-400 uppercase tracking-wider">
@@ -78,65 +107,51 @@ export default function Index({ auth, employees }) {
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-800/60 text-sm">
-                                    {employeeData.length === 0 ? (
+                                    {userData.length === 0 ? (
                                         <tr>
                                             <td
                                                 colSpan="5"
                                                 className="px-6 py-12 text-center text-gray-500"
                                             >
-                                                No corporate employee records
-                                                found. Click "Onboard New
-                                                Employee" to register profiles.
+                                                No corporate user records found.
+                                                Click "Onboard New User" to
+                                                register profiles.
                                             </td>
                                         </tr>
                                     ) : (
-                                        employeeData.map((emp) => (
+                                        userData.map((usr) => (
                                             <tr
-                                                key={emp.id}
+                                                key={usr.id}
                                                 className="hover:bg-gray-800/20 transition-colors group"
                                             >
-                                                <td className="px-6 py-4 text-white">
-                                                    {emp.code}
-                                                </td>
                                                 {/* Profile Details */}
                                                 <td className="px-6 py-4">
                                                     <div className="font-medium text-white">
-                                                        {emp.name}
+                                                        {usr.name}
                                                     </div>
                                                     <div className="text-xs text-gray-500 mt-0.5">
-                                                        {emp.email}
+                                                        {usr.email}
                                                     </div>
                                                 </td>
                                                 <td className="px-6 py-4">
-                                                    <div className="font-medium text-gray-300 text-white">
-                                                        {emp.designation
+                                                    <div className="font-medium text-white">
+                                                        {usr.employee
+                                                            ?.designation
                                                             ?.name ||
                                                             "No Designation"}
                                                     </div>
                                                     <div className="text-xs text-gray-500 mt-0.5">
-                                                        {emp.company?.name ||
+                                                        {usr.employee.company
+                                                            ?.name ||
                                                             "Unassigned"}{" "}
                                                         |{" "}
-                                                        {emp.department?.name ||
+                                                        {usr.employee.department
+                                                            ?.name ||
                                                             "Unassigned"}
                                                     </div>
                                                 </td>
                                                 <td className="px-6 py-4 font-medium text-white">
-                                                    {emp.date_of_joining
-                                                        ? new Date(
-                                                              emp.date_of_joining,
-                                                          ).toLocaleDateString(
-                                                              "en-US",
-                                                              {
-                                                                  year: "numeric",
-                                                                  month: "short",
-                                                                  day: "numeric",
-                                                              },
-                                                          )
-                                                        : "-"}
-                                                </td>
-                                                <td className="px-6 py-4 font-medium text-white">
-                                                    {emp.is_active ? (
+                                                    {usr.is_active ? (
                                                         <span className="inline-flex px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                                                             Active
                                                         </span>
@@ -147,47 +162,69 @@ export default function Index({ auth, employees }) {
                                                     )}
                                                 </td>
                                                 <td className="px-4 py-3 text-center whitespace-nowrap">
-                                                    {emp.is_system_record ===
-                                                        0 && (
+                                                    {usr.is_admin === 0 && (
                                                         <div className="flex items-center justify-center gap-1.5 opacity-70 group-hover:opacity-100 transition-opacity">
                                                             <Link
-                                                                title="View Employee"
-                                                                className="p-1.5 rounded-md text-slate-400 hover:text-blue-400 hover:bg-blue-500/10 transition-all"
                                                                 href={route(
-                                                                    "employee.show",
-                                                                    emp.id,
+                                                                    "user.show",
+                                                                    usr.id,
                                                                 )}
+                                                                title="View User Access"
+                                                                className="p-1.5 rounded-md text-slate-400 hover:text-blue-400 hover:bg-blue-500/10 transition-all"
                                                             >
                                                                 <Eye className="w-4 h-4" />
                                                             </Link>
 
                                                             <Link
-                                                                title="Edit Employee"
-                                                                className="p-1.5 rounded-md text-slate-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors"
                                                                 href={route(
-                                                                    "employee.edit",
-                                                                    emp.id,
+                                                                    "user.edit",
+                                                                    usr.id,
                                                                 )}
+                                                                title="Edit User Access"
+                                                                className="p-1.5 rounded-md text-slate-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors"
                                                             >
                                                                 <Edit className="w-4 h-4" />
                                                             </Link>
                                                             <button
-                                                                title="Deactivate Employee"
-                                                                className="p-1.5 rounded-md text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors text-xs font-medium"
+                                                                type="button"
+                                                                title="Resend Password Setup Link"
+                                                                disabled={
+                                                                    processingUserId ===
+                                                                    usr.id
+                                                                }
+                                                                onClick={() =>
+                                                                    handleResendLink(
+                                                                        usr.id,
+                                                                    )
+                                                                }
+                                                                className={`p-1.5 rounded-md text-slate-400 hover:text-cyan-400 hover:bg-cyan-500/10 transition-all ${
+                                                                    processingUserId ===
+                                                                    usr.id
+                                                                        ? "opacity-50 animate-pulse cursor-not-allowed"
+                                                                        : ""
+                                                                }`}
+                                                                className="p-1.5 rounded-md text-slate-400 hover:text-cyan-400 hover:bg-cyan-500/10 transition-all"
+                                                            >
+                                                                <KeyRound className="w-4 h-4" />
+                                                            </button>
+                                                            <button
+                                                                type="button"
+                                                                title="Deactivate User"
                                                                 onClick={() => {
                                                                     if (
                                                                         confirm(
-                                                                            `Are you sure you want to deactivate ${emp.name}'s profile?`,
+                                                                            `Are you sure you want to deactivate ${usr.name}'s profile?`,
                                                                         )
                                                                     ) {
                                                                         router.delete(
                                                                             route(
-                                                                                "employee.delete",
-                                                                                emp.id,
+                                                                                "user.delete",
+                                                                                usr.id,
                                                                             ),
                                                                         );
                                                                     }
                                                                 }}
+                                                                className="p-1.5 rounded-md text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors text-xs font-medium"
                                                             >
                                                                 <Ban className="w-4 h-4" />
                                                             </button>

@@ -37,7 +37,8 @@ class EmployeeOnboardingController extends Controller
             'company_id',
             'department_id',
             'designation_id',
-            'is_system_record'
+            'is_system_record',
+            'is_active'
         ])->latest()
             ->paginate(10)
             ->withQueryString();

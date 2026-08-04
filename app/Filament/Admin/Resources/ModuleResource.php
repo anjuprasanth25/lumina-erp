@@ -7,6 +7,7 @@ use App\Models\Module;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Forms\Set;
 use Filament\Resources\Resource;
@@ -60,7 +61,13 @@ class ModuleResource extends Resource
                     ->numeric()
                     ->step(1)
                     ->minValue(0)
-                    ->default(0)
+                    ->default(0),
+
+                Toggle::make('is_default')
+                    ->label('is_default')
+
+
+
 
             ]);
     }

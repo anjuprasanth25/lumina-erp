@@ -41,6 +41,10 @@ export default function EmployeeOnboarding({ auth, lookups = {} }) {
             onSuccess: () => {
                 // Optional: Add a flash notification or tracking logic here
             },
+            onError: (errors) => {
+                // Scroll smoothly to the top of the window
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            },
         });
     };
 
@@ -48,7 +52,7 @@ export default function EmployeeOnboarding({ auth, lookups = {} }) {
         <AuthenticatedLayout auth={auth}>
             <Head title="Employee Onboarding" />
 
-            <div className="max-w-5xl mx-auto p-6 text-gray-200">
+            <div className="py-12 bg-lumina-darkBg min-h-screen text-gray-200">
                 <h1 className="text-2xl font-bold text-white mb-6">
                     Employee Onboarding
                 </h1>
@@ -69,7 +73,7 @@ export default function EmployeeOnboarding({ auth, lookups = {} }) {
                 )}
                 <form onSubmit={handleSubmit} className="space-y-6">
                     {/* CARD CONTAINER */}
-                    <div className="bg-[#141416] border border-gray-800 rounded-xl p-6 shadow-xl">
+                    <div className="bg-slate-900/60 backdrop-blur-md border border-slate-800 rounded-xl p-6 shadow-xl">
                         <h3 className="mb-2 font-bold text-white">
                             Personal Information
                         </h3>
@@ -178,7 +182,7 @@ export default function EmployeeOnboarding({ auth, lookups = {} }) {
                         {/* END OF GRID */}
                     </div>{" "}
                     {/* END OF CARD */}
-                    <div className="bg-[#141416] border border-gray-800 rounded-xl p-6 shadow-xl">
+                    <div className="bg-slate-900/60 backdrop-blur-md border border-slate-800 rounded-xl p-6 shadow-xl">
                         <h3 className="mb-2 font-bold text-white">
                             Employement Information
                         </h3>
@@ -274,7 +278,7 @@ export default function EmployeeOnboarding({ auth, lookups = {} }) {
                             <button
                                 type="submit"
                                 disabled={processing}
-                                className="bg-amber-500 hover:bg-amber-600 disabled:bg-amber-800/50 disabled:text-gray-500 disabled:cursor-not-allowed text-black font-semibold text-sm px-6 py-2.5 rounded-lg transition-all shadow-md cursor-pointer text-white"
+                                className="px-6 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm transition-all shadow-md active:scale-95"
                             >
                                 {processing
                                     ? "Saving Record..."

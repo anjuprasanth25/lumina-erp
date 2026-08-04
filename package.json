@@ -21,6 +21,7 @@
     },
     "dependencies": {
         "@inertiajs/react": "^3.1.1",
+        "lucide-react": "^1.27.0",
         "react": "^19.2.6",
         "react-dom": "^19.2.6",
         "ziggy-js": "^2.6.2"

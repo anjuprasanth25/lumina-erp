@@ -7,7 +7,7 @@ use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
-use Str;
+use Illuminate\Support\Str;
 
 class CreateUser extends CreateRecord
 {

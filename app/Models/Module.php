@@ -19,6 +19,7 @@ class Module extends Model
         'custom_route_link',
         'order',
         'is_active',
+        'is_default',
         'created_by',
         'updated_by'
     ];
@@ -33,4 +34,3 @@ class Module extends Model
         return $this->belongsToMany(Role::class);
     }
 }
-
