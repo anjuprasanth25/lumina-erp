@@ -10,3 +10,5 @@ Route::get('/{employee}/edit', [EmployeeOnboardingController::class, 'edit'])->n
 Route::put('/{employee}', [EmployeeOnboardingController::class, 'update'])->name('update');
 Route::get('/{employee}/show', [EmployeeOnboardingController::class, 'view'])->name('show');
 Route::delete('/{employee}', [EmployeeOnboardingController::class, 'destroy'])->name('delete');
+
+

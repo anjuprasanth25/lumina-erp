@@ -20,7 +20,10 @@ class MasterDataSeeder extends Seeder
             BillingTypeSeeder::class,
             ExchangeRateSeeder::class,
             ModuleSeeder::class,
-            LeaveTypeSeeder::class
+            LeaveTypeSeeder::class,
+            ExpenseCategorySeeder::class,
+            ExpenseTypeSeeder::class,
+            CurrencyExchangeRateSeeder::class
 
         ]);
 
@@ -28,6 +31,5 @@ class MasterDataSeeder extends Seeder
             CompanySeeder::class,
             SystemAdminSeeder::class
         ]);
-
     }
 }

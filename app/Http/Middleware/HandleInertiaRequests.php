@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Models\Module;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Middleware;
 
 
@@ -40,18 +41,15 @@ class HandleInertiaRequests extends Middleware
         $user = auth()->user();
         $groupedModules = [];
         if ($user) {
-            if($user->isSystemAdmin()){
+            if ($user->isSystemAdmin()) {
                 $modules = Module::all();
-
-            }else{
-                $modules = $user->companyRoleAssignments()
-                    ->with('role.modules.parentModule')
+            } else {
+                $modules = $user->modules()
+                    ->with('parentModule')
                     ->get()
-                    ->pluck('role.modules')// get only the modules - nested array
-                    ->flatten()
-                    ->unique('id'); // remove the duplicates
+                    ->unique('id')
+                    ->values();
             }
-
 
             $groupedModules = $modules->groupBy(function ($module) {
                 return $module->parentModule ? $module->parentModule->name : 'General';
@@ -67,10 +65,38 @@ class HandleInertiaRequests extends Middleware
                         ];
                     })->values(),
                 ];
-
             })->values();
         }
         //to get the list of modules the user has access
+
+        $activeModuleRouteLink = $this->getActiveModule($request);
+        if ($activeModuleRouteLink) {
+            $currentModule = DB::table('modules')
+                ->where('modules.custom_route_link', $activeModuleRouteLink)
+                ->first();
+
+            $currentModuleAccessDetails = DB::table('company_role_user')
+                ->join('modules', 'company_role_user.module_id', '=', 'modules.id')
+                ->join('roles', 'company_role_user.role_id', '=', 'roles.id')
+                ->join('companies', 'company_role_user.company_id', '=', 'companies.id')
+                ->where('company_role_user.user_id', $user->id)
+                ->where(function ($query) use ($activeModuleRouteLink) {
+                    $query->where('modules.custom_route_link', $activeModuleRouteLink);
+                })
+                ->select([
+                    'companies.id as company_id',
+                    'companies.name as company_name',
+                    'roles.id as role_id',
+                    'roles.code as role',
+                    'modules.id as module_id',
+                    'modules.name as module_name',
+                    'modules.custom_route_link',
+                ])->get();
+
+            $request->attributes->set('moduleAccessDetails', $currentModuleAccessDetails);
+            $request->attributes->set('moduleDetails', $currentModule);
+        }
+
 
 
         return array_merge(parent::share($request), [
@@ -88,10 +114,20 @@ class HandleInertiaRequests extends Middleware
                         ->map(fn($n) => mb_substr($n, 0, 1))
                         ->take(2)
                         ->join(''),
+                    'employee_id' => $user->employee_id
                 ] : null,
                 'menuStructure' => $groupedModules,
             ]
 
         ]);
+    }
+
+    private function getActiveModule(Request $request): ?string
+    {
+        $routeName = "";
+        if ($request->segment(1) === 'dashboard' && $request->segment(2))
+            $routeName = $request->segment(2);
+
+        return $routeName;
     }
 }

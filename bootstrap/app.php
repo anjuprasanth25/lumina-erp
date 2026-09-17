@@ -23,6 +23,12 @@ return Application::configure(basePath: dirname(__DIR__))
                 ->prefix('dashboard/users')
                 ->name('user.')
                 ->group(base_path('routes/user.php'));
+
+            //Register expense module routes
+            Route::middleware(['web', 'auth'])
+                ->prefix('dashboard/expense-claims')
+                ->name('expense-claim.')
+                ->group(base_path('routes/expense_claim.php'));
         }
     )
     ->withMiddleware(function (Middleware $middleware): void {

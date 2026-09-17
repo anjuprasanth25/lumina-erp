@@ -56,7 +56,10 @@ export default function Index({ auth, employees }) {
                     {/* DIRECTORY MATRIX CARD */}
                     <div className="bg-slate-900/60 backdrop-blur-md border border-slate-800 rounded-xl overflow-hidden shadow-xl">
                         <div className="overflow-x-auto">
-                            <table className="w-full text-left border-collapse">
+                            <table
+                                className="w-full text-left border-collapse"
+                                table-fixed
+                            >
                                 <thead className="bg-[#1c273e] text-xs uppercase text-slate-400 font-semibold border-b border-slate-800">
                                     <tr className="border-b border-gray-800 bg-[#242427]/50 text-gray-400 text-xs uppercase tracking-wider font-semibold">
                                         <th className="px-6 py-4">

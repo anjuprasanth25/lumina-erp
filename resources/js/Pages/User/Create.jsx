@@ -235,81 +235,75 @@ export default function User({ auth, lookups = {} }) {
                         <h3 className="mb-2 font-bold text-white">
                             Employee Information
                         </h3>
-                        <div
-                            style={{
-                                display: "grid",
-                                gridTemplateColumns: "1fr 1fr",
-                                gap: "24px",
-                            }}
-                        >
-                            <SelectInput
-                                label="Employee"
-                                options={employees}
-                                value={data.employee_id}
-                                onChange={(e) => {
-                                    const selectedId = e.target.value;
-                                    const selectedEmployee = employees.find(
-                                        (emp) => emp.id == selectedId,
-                                    );
-                                    const empCompanyId =
-                                        selectedEmployee?.company_id || "";
-                                    setData("company_id", empCompanyId);
-                                    setData((prevData) => {
-                                        // Map over current blocks and update the first card's company_id automatically
-                                        const updatedBlocks =
-                                            data.company_access_blocks.map(
-                                                (block, index) => {
-                                                    if (index == 0) {
-                                                        return {
-                                                            ...block,
-                                                            company_id:
-                                                                empCompanyId,
-                                                        };
-                                                    }
-                                                    return block;
-                                                },
-                                            );
+                        <div className="space-y-6">
+                            <div>
+                                <SelectInput
+                                    label="Employee"
+                                    options={employees}
+                                    value={data.employee_id}
+                                    onChange={(e) => {
+                                        const selectedId = e.target.value;
+                                        const selectedEmployee = employees.find(
+                                            (emp) => emp.id == selectedId,
+                                        );
+                                        const empCompanyId =
+                                            selectedEmployee?.company_id || "";
+                                        setData("company_id", empCompanyId);
+                                        setData((prevData) => {
+                                            // Map over current blocks and update the first card's company_id automatically
+                                            const updatedBlocks =
+                                                data.company_access_blocks.map(
+                                                    (block, index) => {
+                                                        if (index == 0) {
+                                                            return {
+                                                                ...block,
+                                                                company_id:
+                                                                    empCompanyId,
+                                                            };
+                                                        }
+                                                        return block;
+                                                    },
+                                                );
 
-                                        return {
-                                            ...prevData,
-                                            employee_id: selectedId,
-                                            name: selectedEmployee?.name || "",
-                                            email:
-                                                selectedEmployee?.email || "",
-                                            company:
-                                                selectedEmployee?.company
-                                                    ?.name || "",
-                                            designation: `${
-                                                selectedEmployee?.designation
-                                                    ?.name || ""
-                                            } - ${selectedEmployee?.department?.name || ""}`,
-                                            company_access_blocks:
-                                                updatedBlocks, // Sets company dropdown value automatically!
-                                        };
-                                    });
-                                }}
-                            />
+                                            return {
+                                                ...prevData,
+                                                employee_id: selectedId,
+                                                name:
+                                                    selectedEmployee?.name ||
+                                                    "",
+                                                email:
+                                                    selectedEmployee?.email ||
+                                                    "",
+                                                company:
+                                                    selectedEmployee?.company
+                                                        ?.name || "",
+                                                designation: `${
+                                                    selectedEmployee
+                                                        ?.designation?.name ||
+                                                    ""
+                                                } - ${selectedEmployee?.department?.name || ""}`,
+                                                company_access_blocks:
+                                                    updatedBlocks, // Sets company dropdown value automatically!
+                                            };
+                                        });
+                                    }}
+                                />
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <TextInput
+                                    label="Email"
+                                    value={data.email || ""}
+                                    readOnly
+                                    disabled
+                                />
 
-                            <TextInput
-                                label="Email"
-                                value={data.email || ""}
-                                readOnly
-                                disabled
-                            />
-
-                            <TextInput
-                                label="Company"
-                                value={data.company || ""}
-                                readOnly
-                                disabled
-                            />
-
-                            <TextInput
-                                label="Designation"
-                                value={data.designation || ""}
-                                readOnly
-                                disabled
-                            />
+                                <TextInput
+                                    label="Company"
+                                    value={data.company || ""}
+                                    readOnly
+                                    disabled
+                                />
+                            </div>
                         </div>
                     </div>
 

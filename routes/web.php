@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EmployeeOnboardingController;
+use App\Http\Controllers\ExpenseClaimController;
 use App\Http\Controllers\LeaveRequestController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SetPasswordController;
@@ -19,6 +20,8 @@ Route::middleware('auth')->group(function () {
             'Dashboard'
         );
     })->name('dashboard');
+
+
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

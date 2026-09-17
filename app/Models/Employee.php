@@ -73,8 +73,6 @@ class Employee extends Model
 
     public function lineManager()
     {
-        return $this->belongsTo(Employee::class, 'line_manager_id');
+        return $this->belongsTo(User::class, 'line_manager_id');
     }
-
-
 }

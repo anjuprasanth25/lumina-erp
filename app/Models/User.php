@@ -72,6 +72,23 @@ class User extends Authenticatable implements FilamentUser
             ->exists();
     }
 
+    public function hasModulerole(int $companyId, string $moduleSlug, string|array $roles): bool
+    {
+        if ($this->isSystemAdmin())
+            return true;
+
+        $roles = (array) $roles;
+
+        return $this->companyRoleAssignments()
+            ->where('company_id', $companyId)
+            ->whereHas('role', function ($query) use ($roles) {
+                $query->whereIn('code', $roles);
+            })
+            ->whereHas('module', function ($query) use ($moduleSlug) {
+                $query->where('slug', $moduleSlug);
+            })->exists();
+    }
+
     public function isSystemAdmin(): bool
     {
         return (bool) $this->is_admin;
@@ -147,6 +164,13 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->belongsToMany(Role::class, 'company_role_user', 'user_id', 'role_id')
             ->withPivot('company_id', 'module_id')
+            ->withTimestamps();
+    }
+
+    public function modules()
+    {
+        return $this->belongsToMany(Module::class, 'company_role_user', 'user_id', 'module_id')
+            ->withPivot('company_id', 'role_id')
             ->withTimestamps();
     }
 }

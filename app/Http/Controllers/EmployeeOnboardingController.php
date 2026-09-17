@@ -40,7 +40,7 @@ class EmployeeOnboardingController extends Controller
             'is_system_record',
             'is_active'
         ])->latest()
-            ->paginate(10)
+            ->paginate(15)
             ->withQueryString();
 
         return Inertia::render('Employee/Index', [
@@ -54,8 +54,17 @@ class EmployeeOnboardingController extends Controller
 
     public function create()
     {
-        $lineManager = Employee::where('id', '!=', auth()->user()->employee_id)
-            ->with('designation')
+        // $lineManager = Employee::where('id', '!=', auth()->user()->employee_id)
+        //     ->with('designation')
+        //     ->get()
+        //     ->map(function ($employee) {
+        //         return [
+        //             'id' => $employee->id,
+        //             'name' => $employee->name . ' - ' . $employee->designation->name
+        //         ];
+        //     })->toArray();
+
+        $lineManager = Employee::with('designation')
             ->get()
             ->map(function ($employee) {
                 return [
@@ -128,7 +137,6 @@ class EmployeeOnboardingController extends Controller
     {
         $employee->load('details');
 
-
         return Inertia::render('Employee/Edit', [
             'employee' => $employee,
             'companies' => Company::all(['id', 'name']),
@@ -156,7 +164,7 @@ class EmployeeOnboardingController extends Controller
             'company_id' => 'required|exists:companies,id',
             'department_id' => 'required|exists:departments,id',
             'designation_id' => 'required|exists:designations,id',
-            'line_manager_id' => 'nullable|exists:employees,id',
+            'line_manager_id' => 'nullable|exists:users,id',
             'country_id' => 'required|exists:countries,id',
             'billing_type_id' => 'required|exists:billing_types,id',
         ]);
@@ -209,12 +217,14 @@ class EmployeeOnboardingController extends Controller
 
         return
             Employee::where('id', '!=', $currentEmployeeId)
-            ->with('designation')
+            ->with(['designation', 'user'])
             ->get()
+            ->filter(fn($employee) => $employee->user !== null)
             ->map(function ($employee) {
                 $designation = $employee->designation?->name ?? 'No Designation';
+
                 return [
-                    'id' => $employee->id,
+                    'id' => $employee->user->id,
                     'name' => $employee->name . ' - ' . $designation
                 ];
             })->toArray();

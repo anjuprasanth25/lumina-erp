@@ -57,6 +57,7 @@ class UserController extends Controller
      */
     public function create()
     {
+
         return Inertia::render(
             'User/Create',
             [
@@ -65,7 +66,19 @@ class UserController extends Controller
                         ->where('is_system_record', 0)
                         ->doesntHave('user')
                         ->with('company', 'designation', 'department')
-                        ->orderBy('name')->get(),
+                        ->orderBy('name')->get()
+                        ->map(function ($emp) {
+                            return [
+                                'id' => $emp->id,
+                                'name' => $emp->name . ' - ' . ($emp->designation?->name ?? 'No Designation'),
+                                'email' => $emp->email,
+                                'company_id' => $emp->company_id,
+                                'department_id' => $emp->department_id,
+                                'company' => $emp->company,
+                                'designation' => $emp->designation,
+                                'department' => $emp->department,
+                            ];
+                        }),
                     'companies' => Company::select('id', 'name')->orderBy('name')->get(),
                     'roles' => Role::select('id', 'name', 'code')->orderBy('name')->get(),
                     'modules' => Module::select('id', 'name', 'is_default')->orderBy('name')->get()
@@ -88,6 +101,11 @@ class UserController extends Controller
             'company_access_blocks.*.permissions' => 'required|array|min:1',
             'company_access_blocks.*.permissions.*.module_id' => 'required|exists:modules,id',
             'company_access_blocks.*.permissions.*.role_id' => 'required|exists:roles,id'
+        ], [
+            'company_access_blocks.*.company_id.required' => 'Company is required',
+            'company_access_blocks.*.permission.required' => 'Permission is required',
+            'company_access_blocks.*.permissions.*.module_id.required' => 'Select the Module',
+            'company_access_blocks.*.permissions.*.role_id.required' => 'Select the Role',
         ]);
 
 

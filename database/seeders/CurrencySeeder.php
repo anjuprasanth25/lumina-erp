@@ -17,6 +17,9 @@ class CurrencySeeder extends Seeder
             ['code' => 'AED', 'name' => 'UAE Dirham', 'symbol' => 'د.إ', 'is_active' => true],
             ['code' => 'USD', 'name' => 'US Dollar', 'symbol' => '$', 'is_active' => true],
             ['code' => 'INR', 'name' => 'Indian Rupee', 'symbol' => '₹', 'is_active' => true],
+            ['code' => 'EUR', 'name' => 'Euro', 'symbol' => '€', 'is_active' => true],
+            ['code' => 'GBP', 'name' => 'British Pound', 'symbol' => '£', 'is_active' => true],
+            ['code' => 'CAD', 'name' => 'Canadian Dollar', 'symbol' => 'CA$', 'is_active' => true],
         ];
 
         foreach ($currencies as $currency) {
@@ -25,7 +28,5 @@ class CurrencySeeder extends Seeder
                 $currency
             );
         }
-
-
     }
 }
