@@ -29,6 +29,6 @@ LuminaERP is a modern enterprise application designed to handle multi-company or
 
 1. **Clone repository:**
     ```bash
-    git clone [https://github.com/anjuprasanth25/lumina-erp.git](https://github.com/anjuprasanth25/lumina-erp.git)
+    git clone https://github.com/anjuprasanth25/lumina-erp.git
     cd lumina-erp
     ```
