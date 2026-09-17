@@ -45,6 +45,7 @@ class HandleInertiaRequests extends Middleware
                 $modules = Module::all();
             } else {
                 $modules = $user->modules()
+                    ->where('is_active', 1)
                     ->with('parentModule')
                     ->get()
                     ->unique('id')
