@@ -2,7 +2,7 @@
 
 LuminaERP is a modern multi-tenant enterprise application designed to support multi-company organizational structures, role-based access control (RBAC), and multi-stage business workflows.
 
-Built with Laravel 12, PHP 8.2+, React, Inertia.js, Filament v3, Tailwind CSS, and MySQL, the platform combines server-side authorization, business rules, workflow controls, and responsive management interfaces.
+Built with **Laravel 12, PHP 8.2+, React, Inertia.js, Filament v3, Tailwind CSS, and MySQL**, the platform combines server-side authorization, business rules, workflow controls, and responsive management interfaces.
 ---
 
 ## 🎬 System Demo Walkthrough
