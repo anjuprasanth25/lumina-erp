@@ -4,7 +4,7 @@ LuminaERP is a modern enterprise application designed to handle multi-company or
 ---
 
 ## 🎬 System Demo Walkthrough
-[![Watch on Loom](https://img.shields.io/badge/Loom-Watch_2--Min_Demo-625DF5?style=for-the-badge&logo=loom&logoColor=white)](https://www.loom.com/share/d4e3743740554d8c8f6c57b8c30b2533)
+[![Watch on Loom](https://img.shields.io/badge/Loom-Watch_2--Min_Demo-625DF5?style=for-the-badge&logo=loom&logoColor=white)](https://www.loom.com/share/204d8c0ffe744069a9cdc2ca02abb69f)
 
 Watch a 2-minute video walkthrough demonstrating end-to-end functionality:
 * **Role-Based Access Control (RBAC):** Dynamic dashboard filtering powered by Laravel Gate policies (`ExpenseClaimPolicy.php`).
