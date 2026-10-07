@@ -2,21 +2,27 @@
 
 LuminaERP is a modern multi-tenant enterprise application designed to support multi-company organizational structures, role-based access control (RBAC), and multi-stage business workflows.
 
-Built with **Laravel 12, PHP 8.2+, React, Inertia.js, Filament v3, Tailwind CSS, and MySQL**, the platform combines server-side authorization, business rules, workflow controls, and responsive management interfaces.
+Built with **Laravel 12, PHP 8.2+, React, Inertia.js, Filament v3, Tailwind CSS and MySQL**, the platform combines server-side authorization, business rules, workflow controls, and responsive management interfaces.
+
 ---
 
 ## 🎬 System Demo Walkthrough
-[![Watch on Loom](https://img.shields.io/badge/Loom-Watch_2--Min_Demo-625DF5?style=for-the-badge&logo=loom&logoColor=white)](https://www.loom.com/share/204d8c0ffe744069a9cdc2ca02abb69f)
+[![Watch on Loom](https://img.shields.io/badge/Loom-Watch_4--Min_Demo-625DF5?style=for-the-badge&logo=loom&logoColor=white)](https://www.loom.com/share/204d8c0ffe744069a9cdc2ca02abb69f)
 
 Watch the video walkthrough demonstrating an end-to-end expense claim workflow:
 
 **Employee Submission → Verification → Line Manager Approval → Finance Approval → Booking → Posting**
 
-**Demonstrated Capabilities**
+## Demonstrated Capabilities
+
 **Role-Based Access Control (RBAC):** Role- and policy-based authorization using Laravel Policies/Gates, with available actions determined by the user's role and the current transaction state.
+
 **Multi-Stage Financial Workflow:** End-to-end expense claim processing covering verification, manager approval, finance approval, booking, and final posting.
+
 **Audit Trail:** Workflow history records key actions throughout the transaction lifecycle, providing traceability across approval and financial processing stages.
+
 **Rejection & Resubmission:** Expense claims can be rejected and resubmitted, allowing the transaction to re-enter the appropriate workflow stage.
+
 **ERP Modules:** User Onboarding, Employee Onboarding, and Expense Claims modules.
 
 ---
